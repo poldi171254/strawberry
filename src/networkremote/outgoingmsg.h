@@ -41,8 +41,6 @@ private:
   nw::remote::SongMetadata *song_;
   nw::remote::ResponseSongMetadata *responeSong_;
   SharedPtr<Player> player_ ;
-  bool statusOk_;
-
 };
 
 #endif // OUTGOINGMSG_H

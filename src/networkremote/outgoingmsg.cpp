@@ -67,12 +67,7 @@ void NetworkRemoteOutgoingMsg::SendMsg()
   {
     socket_->write(QByteArray::fromStdString(msgOut));
     qLog(Debug) << socket_->bytesToWrite() << " bytes written to socket " << socket_->socketDescriptor();
-    statusOk_ = true;
     msg_->Clear();
-  }
-  else
-  {
-    statusOk_ = false;
   }
 }
 

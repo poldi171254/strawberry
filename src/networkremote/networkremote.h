@@ -14,7 +14,6 @@ class NetworkRemote : public QObject
 {
      Q_OBJECT
 public:
-  static const char* kSettingsGroup;
   explicit NetworkRemote(Application* app, QObject *parent = nullptr);
   static NetworkRemote* Instance();
   ~NetworkRemote() override;
@@ -33,7 +32,6 @@ private:
   int remote_port_;
   QHostAddress ipAddr_;
   NetworkRemoteTcpServer *server_;
-  QThread *original_thread_;
   static NetworkRemote* sInstance_;
   NetworkRemoteSettings* settings_;
 };

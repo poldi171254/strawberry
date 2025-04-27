@@ -5,7 +5,6 @@
 #include "core/player.h"
 
 NetworkRemote* NetworkRemote::sInstance_ = nullptr;
-const char *NetworkRemote::kSettingsGroup = "Remote";
 
 NetworkRemote::NetworkRemote(Application* app, QObject *parent)
   : QObject(parent),
@@ -14,7 +13,6 @@ NetworkRemote::NetworkRemote(Application* app, QObject *parent)
     local_only_(false),
     remote_port_(5050),
     server_(new NetworkRemoteTcpServer(app_,this)),
-    original_thread_(thread()),
     settings_(new NetworkRemoteSettings())
 {
   setObjectName("NetworkRemote");
