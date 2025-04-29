@@ -27,7 +27,6 @@
 #include "includes/shared_ptr.h"
 #include "networkremote/RemoteMessages.pb.h"
 
-class Application;
 class Playlist;
 class Player;
 class QTcpSocket;
@@ -43,13 +42,12 @@ class NetworkRemoteOutgoingMsg : public QObject
 {
      Q_OBJECT
 public:
-  explicit NetworkRemoteOutgoingMsg(Application *app, QObject *parent = nullptr);
-  void Init(QTcpSocket*, SharedPtr<Player>);
+  explicit NetworkRemoteOutgoingMsg(const SharedPtr<Player>& player, QObject *parent = nullptr);
+  void Init(QTcpSocket*);
   void SendCurrentTrackInfo();
   void SendMsg();
 
 private:
-  Application *app_;
   PlaylistItemPtr currentItem_;
   Playlist *playlist_;
   QTcpSocket *socket_;

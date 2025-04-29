@@ -27,13 +27,11 @@
 #include "outgoingmsg.h"
 #include "core/player.h"
 
-class Application;
-
 class NetworkRemoteClient : public QObject
 {
   Q_OBJECT
 public:
-  explicit NetworkRemoteClient(Application *app, QObject *parent = nullptr);
+  explicit NetworkRemoteClient(const SharedPtr<Player>&  player, QObject *parent = nullptr);
   ~NetworkRemoteClient();
   void Init(QTcpSocket*);
   QTcpSocket* GetSocket();
@@ -45,11 +43,10 @@ Q_SIGNALS:
   void ClientIsLeaving();
 
 private:
-  Application *app_;
   QTcpSocket *socket_;
   NetworkRemoteIncomingMsg *incomingMsg_;
   NetworkRemoteOutgoingMsg *outgoingMsg_;
-  SharedPtr<Player> player_;
+  const SharedPtr<Player> player_;
 };
 
 #endif // CLIENT_H

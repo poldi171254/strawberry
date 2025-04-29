@@ -21,15 +21,12 @@
 #include "client.h"
 #include "core/application.h"
 
-NetworkRemoteClient::NetworkRemoteClient(Application *app, QObject *parent)
+NetworkRemoteClient::NetworkRemoteClient(const SharedPtr<Player>& player, QObject *parent)
   : QObject(parent),
-    app_(app),
     incomingMsg_(new NetworkRemoteIncomingMsg(this)),
-    outgoingMsg_(new NetworkRemoteOutgoingMsg(app, this))
-{
-  player_ = app_->player();
-}
-
+    outgoingMsg_(new NetworkRemoteOutgoingMsg(player, this)),
+    player_(player)
+{}
 NetworkRemoteClient::~NetworkRemoteClient()
 {
 }
@@ -39,7 +36,7 @@ void NetworkRemoteClient::Init(QTcpSocket *socket)
   socket_ = socket;
   QObject::connect(incomingMsg_,&NetworkRemoteIncomingMsg::InMsgParsed,this, &NetworkRemoteClient::ProcessIncoming);
   incomingMsg_->Init(socket_);
-  outgoingMsg_->Init(socket_, player_);
+  outgoingMsg_->Init(socket_);
 }
 
 QTcpSocket* NetworkRemoteClient::GetSocket()

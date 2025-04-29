@@ -220,6 +220,7 @@ class ApplicationImpl {
 #endif
         lastfm_import_([app]() { return new LastFMImport(app->network()); }),
         network_remote_([app]() {
+            qLog(Debug) << "Moving to new thread";
             NetworkRemote *remote = new NetworkRemote(app);
             app->MoveToNewThread(remote);
             return remote;

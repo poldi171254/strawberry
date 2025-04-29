@@ -53,7 +53,7 @@ void NetworkRemoteSettings::Load()
     s_.setValue("ipAddress",ipAddr_);
   }
   s_.endGroup();
-  qInfo("QSettings Loaded ++++++++++++++++");
+  qLog(Debug) << "QSettings Loaded ++++++++++++++++";
 }
 
 void NetworkRemoteSettings::Save()
@@ -65,7 +65,7 @@ void NetworkRemoteSettings::Save()
   s_.setValue("ipAddress",ipAddr_);
   s_.endGroup();
   s_.sync();
-  qInfo("Saving QSettings ++++++++++++++++");
+  qLog(Debug) << "Saving QSettings ++++++++++++++++";
 }
 
 bool NetworkRemoteSettings::UserRemote()
@@ -110,7 +110,7 @@ void NetworkRemoteSettings::SetIpAdress()
     if (address.protocol() == QAbstractSocket::IPv4Protocol && address.isLoopback() == false && !found){
     // NOTE: this code currently only takes the first ip address it finds
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    qInfo("Warning: The code only picks the first IPv4 address");
+    qLog(Debug) << "Warning: The code only picks the first IPv4 address";
       found = true;
       ipAddr_ = address.toString();
     }

@@ -23,22 +23,20 @@
 #include "core/logging.h"
 #include <QTcpSocket>
 #include "core/player.h"
-#include "playlist/playlistmanager.h"
 
 using namespace Qt::Literals::StringLiterals;
 
-NetworkRemoteOutgoingMsg::NetworkRemoteOutgoingMsg(Application *app, QObject *parent)
-  : QObject(parent),
-    app_(app),
-    msg_(new nw::remote::Message),
-    responeSong_(new nw::remote::ResponseSongMetadata)
+NetworkRemoteOutgoingMsg::NetworkRemoteOutgoingMsg(const SharedPtr<Player>& player, QObject *parent)
+  : QObject(parent),  
+  msg_(new nw::remote::Message),
+  responeSong_(new nw::remote::ResponseSongMetadata),
+  player_(player)
 {
 }
 
-void NetworkRemoteOutgoingMsg::Init(QTcpSocket *socket, SharedPtr<Player> player)
+void NetworkRemoteOutgoingMsg::Init(QTcpSocket *socket)
 {
   socket_ = socket;
-  player_ = player;
 }
 
 void NetworkRemoteOutgoingMsg::SendCurrentTrackInfo()
@@ -46,7 +44,7 @@ void NetworkRemoteOutgoingMsg::SendCurrentTrackInfo()
   msg_->Clear();
   song_ = new nw::remote::SongMetadata;
   responeSong_->Clear();
-  currentItem_ = app_->playlist_manager()->active()->current_item();
+  currentItem_ = player_->GetCurrentItem();
 
   if (currentItem_ != nullptr){
     song_->mutable_title()->assign(currentItem_->Metadata().PrettyTitle().toStdString());
@@ -77,12 +75,8 @@ void NetworkRemoteOutgoingMsg::SendCurrentTrackInfo()
 void NetworkRemoteOutgoingMsg::SendMsg()
 {
   std::string  msgOut;
-
   msg_->SerializeToString(&msgOut);
-
-
   bytesOut_ = msg_->ByteSizeLong();
-
   if(socket_->isWritable())
   {
     socket_->write(QByteArray::fromStdString(msgOut));
