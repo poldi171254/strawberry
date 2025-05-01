@@ -29,8 +29,7 @@ NetworkRemoteIncomingMsg::NetworkRemoteIncomingMsg(QObject *parent)
     socket_(nullptr),
     bytesIn_(0),
     msgType_(0)
-{
-}
+{}
 
 NetworkRemoteIncomingMsg::~NetworkRemoteIncomingMsg()
 {

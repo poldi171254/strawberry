@@ -28,8 +28,7 @@ NetworkRemoteClient::NetworkRemoteClient(const SharedPtr<Player>& player, QObjec
     player_(player)
 {}
 NetworkRemoteClient::~NetworkRemoteClient()
-{
-}
+{}
 
 void NetworkRemoteClient::Init(QTcpSocket *socket)
 {

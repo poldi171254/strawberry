@@ -20,6 +20,7 @@
 
 #include <QHostAddress>
 #include <QNetworkInterface>
+#include <iostream>
 
 #include "remotesettings.h"
 #include "core/logging.h"
@@ -105,11 +106,11 @@ void NetworkRemoteSettings::SetIpAdress()
   bool found = false;
   QList<QHostAddress> hostList = QNetworkInterface::allAddresses();
 
-  for (const QHostAddress &address : hostList)
+  for (const QHostAddress &address : std::as_const(hostList))
   {
     if (address.protocol() == QAbstractSocket::IPv4Protocol && address.isLoopback() == false && !found){
-    // NOTE: this code currently only takes the first ip address it finds
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    std::cout << "NOTE: this code currently only takes the first ip address it finds";
+  
     qLog(Debug) << "Warning: The code only picks the first IPv4 address";
       found = true;
       ipAddr_ = address.toString();

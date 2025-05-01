@@ -32,7 +32,7 @@ class QThread;
 
 class NetworkRemote : public QObject
 {
-     Q_OBJECT
+  Q_OBJECT
 public:
   explicit NetworkRemote(Application* app, QObject *parent = nullptr);
   static NetworkRemote* Instance();

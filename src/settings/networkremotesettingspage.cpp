@@ -64,10 +64,8 @@ void NetworkRemoteSettingsPage::Load()
     ui_->localConnectionsOnly->setCheckable(false);
     ui_->portSelected->setReadOnly(true);
   }
-
   DisplayIP();
   qLog(Debug) << "SettingsPage Loaded QSettings ++++++++++++++++";
-
   Init(ui_->layout_networkremotesettingspage->parentWidget());
 }
 
@@ -103,7 +101,6 @@ void NetworkRemoteSettingsPage::RemoteButtonClicked()
     }
   Refresh();
 }
-
 
 void NetworkRemoteSettingsPage::LocalConnectButtonClicked()
 {

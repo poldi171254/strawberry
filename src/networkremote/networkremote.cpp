@@ -22,7 +22,6 @@
 #include "networkremote/networkremote.h"
 #include "core/application.h"
 #include "core/logging.h"
-#include "core/player.h"
 
 NetworkRemote* NetworkRemote::sInstance_ = nullptr;
 
@@ -32,7 +31,7 @@ NetworkRemote::NetworkRemote(Application* app, QObject *parent)
     enabled_(false),
     local_only_(false),
     remote_port_(5050),
-    server_(new NetworkRemoteTcpServer(app_,this)),
+    server_(nullptr),
     settings_(new NetworkRemoteSettings())
 {
   setObjectName("NetworkRemote");
@@ -48,6 +47,7 @@ void NetworkRemote::Init()
 {
   LoadSettings();
   if (enabled_){
+    server_ = new NetworkRemoteTcpServer(app_,this);
     startTcpServer();
   }
   else {

@@ -31,8 +31,7 @@ NetworkRemoteOutgoingMsg::NetworkRemoteOutgoingMsg(const SharedPtr<Player>& play
   msg_(new nw::remote::Message),
   responeSong_(new nw::remote::ResponseSongMetadata),
   player_(player)
-{
-}
+{}
 
 void NetworkRemoteOutgoingMsg::Init(QTcpSocket *socket)
 {

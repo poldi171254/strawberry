@@ -31,7 +31,8 @@ if(LINUX)
   include(cmake/Deb.cmake)
   # RPATH seems to be a requirement when using Ninja as the cmake generator.
   # as Ubuntu currently comes with 6.4.2, but the QtCreator is on 6.8 I'm pulling in the library from the Creator
-  set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
+  #set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
+  set(CMAKE_INSTALL_RPATH "/home/llist/Qt/6.9.0/gcc_64/lib")
   set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
