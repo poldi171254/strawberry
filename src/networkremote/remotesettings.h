@@ -18,15 +18,14 @@
  *
  */
 
-#ifndef REMOTESETTINGS_H
-#define REMOTESETTINGS_H
+#ifndef NETWORKREMOTESETTINGS_H
+#define NETWORKREMOTESETTINGS_H
 
 #include <QObject>
 #include "core/settings.h"
 
-class NetworkRemoteSettings
-{
-public:
+class NetworkRemoteSettings{
+ public:
   static const char *kSettingsGroup;
   explicit NetworkRemoteSettings();
   ~NetworkRemoteSettings();
@@ -41,12 +40,12 @@ public:
   void SetIpAdress ();
   void SetPort(int);
 
-private:
+ private:
   QSettings s_;
   bool enabled_;
   bool local_only_;
   int remote_port_;
-  QString ipAddr_;
+  QString ip_addr_;
 };
 
-#endif // REMOTESETTINGS_H
+#endif

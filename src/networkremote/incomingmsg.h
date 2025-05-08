@@ -18,41 +18,39 @@
  *
  */
 
-#ifndef INCOMINGMSG_H
-#define INCOMINGMSG_H
+#ifndef NETWORKREMOTEINCOMINGMSG_H
+#define NETWORKREMOTEINCOMINGMSG_H
 
 #include <QObject>
 #include <QByteArray>
-#include <string>
+#include <QString>
 
-// Forward declarations
 class QTcpSocket;
 
 namespace nw { namespace remote { class Message; } }
 
-class NetworkRemoteIncomingMsg : public QObject
-{
+class NetworkRemoteIncomingMsg : public QObject{
   Q_OBJECT
-public:
+ public:
   explicit NetworkRemoteIncomingMsg(QObject *parent = nullptr);
   ~NetworkRemoteIncomingMsg(); 
   void Init(QTcpSocket* socket);
   void SetMsgType();
   qint32 GetMsgType();
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void ReadyRead();
 
-Q_SIGNALS:
+ Q_SIGNALS:
   void InMsgParsed();
 
-private:
+ private:
   nw::remote::Message *msg_;
   QTcpSocket *socket_;
-  long bytesIn_;
-  QByteArray msgStream_;
-  std::string msgString_;
-  qint32 msgType_;
+  long bytes_in_;
+  QByteArray msg_stream_;
+  std::string msg_string_;
+  qint32 msg_type_;
 };
 
-#endif // INCOMINGMSG_H
+#endif

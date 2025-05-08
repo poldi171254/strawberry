@@ -33,27 +33,27 @@ class QThread;
 class NetworkRemote : public QObject
 {
   Q_OBJECT
-public:
-  explicit NetworkRemote(Application* app, QObject *parent = nullptr);
-  static NetworkRemote* Instance();
+ public:
+  explicit NetworkRemote(Application *app, QObject *parent = nullptr);
+  static NetworkRemote *Instance();
   ~NetworkRemote() override;
 
-public Q_SLOTS:
+ public Q_SLOTS:
   void Init();
   void Update();
   void LoadSettings();
   void startTcpServer();
   void stopTcpServer();
 
-private:
+ private:
   Application *app_;
   bool enabled_;
   bool local_only_;
   int remote_port_;
   QHostAddress ipAddr_;
   NetworkRemoteTcpServer *server_;
-  static NetworkRemote* sInstance_;
-  NetworkRemoteSettings* settings_;
+  static NetworkRemote *sInstance_;
+  NetworkRemoteSettings *settings_;
 };
 
 #endif // NETWORKREMOTE_H

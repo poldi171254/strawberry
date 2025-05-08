@@ -28,25 +28,23 @@ class SettingsDialog;
 class Ui_NetworkRemoteSettingsPage;
 class NetworkRemote;
 
-class NetworkRemoteSettingsPage : public SettingsPage
-{
+class NetworkRemoteSettingsPage : public SettingsPage{
   Q_OBJECT
-
-public:
+ public:
   explicit NetworkRemoteSettingsPage(SettingsDialog *dialog, QWidget *parent = nullptr);
   ~NetworkRemoteSettingsPage() override;
   void Load() override;
   void Save() override;
   void Refresh();
 
-Q_SIGNALS:
+ Q_SIGNALS:
   void remoteSettingsChanged();
 
-private:
+ private:
   Ui_NetworkRemoteSettingsPage *ui_;
   NetworkRemoteSettings *settings_;
 
-private Q_SLOTS:
+ private Q_SLOTS:
   void RemoteButtonClicked();
   void LocalConnectButtonClicked();
   void PortChanged();

@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef TCPSERVER_H
-#define TCPSERVER_H
+#ifndef NETWORKREMOTETCPSERVER_H
+#define NETWORKREMOTETCPSERVER_H
 
 #include <QObject>
 #include <QTcpServer>
@@ -28,23 +28,22 @@
 
 class Application;
 
-class NetworkRemoteTcpServer : public QObject
-{
+class NetworkRemoteTcpServer : public QObject{
   Q_OBJECT
-public:
+ public:
   explicit NetworkRemoteTcpServer(Application* app, QObject *parent = nullptr);
   bool ServerUp();
 
-public Q_SLOTS:
+ public Q_SLOTS:
   void NewTcpConnection();
   void StartServer(QHostAddress ipAddr, int port);
   void StopServer();
 
-private:
+ private:
   Application *app_;
   QTcpServer *server_;
   QTcpSocket *socket_;
-  NetworkRemoteClientManager *clientMgr_;
+  NetworkRemoteClientManager *client_mgr_;
 };
 
-#endif // TCPSERVER_H
+#endif

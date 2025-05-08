@@ -26,27 +26,24 @@
 NetworkRemote* NetworkRemote::sInstance_ = nullptr;
 
 NetworkRemote::NetworkRemote(Application* app, QObject *parent)
-  : QObject(parent),
-    app_(app),
-    enabled_(false),
-    local_only_(false),
-    remote_port_(5050),
-    server_(nullptr),
-    settings_(new NetworkRemoteSettings())
-{
+    : QObject(parent),
+      app_(app),
+      enabled_(false),
+      local_only_(false),
+      remote_port_(5050),
+      server_(nullptr),
+      settings_(new NetworkRemoteSettings()) {
   setObjectName("NetworkRemote");
   sInstance_ = this;
 }
 
-NetworkRemote::~NetworkRemote()
-{
+NetworkRemote::~NetworkRemote() {
   stopTcpServer();
 }
 
-void NetworkRemote::Init()
-{
+void NetworkRemote::Init() {
   LoadSettings();
-  if (enabled_){
+  if (enabled_) {
     server_ = new NetworkRemoteTcpServer(app_,this);
     startTcpServer();
   }
@@ -56,10 +53,9 @@ void NetworkRemote::Init()
   qLog(Debug) << "NetworkRemote Init() ";
 }
 
-void NetworkRemote::Update()
-{
+void NetworkRemote::Update() {
   LoadSettings();
-  if (enabled_){
+  if (enabled_) {
     stopTcpServer();
     startTcpServer();
   }
@@ -69,8 +65,7 @@ void NetworkRemote::Update()
   qLog(Debug) << "NetworkRemote Updated ==== ";
 }
 
-void NetworkRemote::LoadSettings()
-{
+void NetworkRemote::LoadSettings() {
   settings_->Load();
   enabled_ = settings_->UserRemote();
   local_only_ = settings_->LocalOnly();
@@ -78,14 +73,12 @@ void NetworkRemote::LoadSettings()
   ipAddr_.setAddress(settings_->GetIpAddress());
 }
 
-void NetworkRemote::startTcpServer()
-{
+void NetworkRemote::startTcpServer() {
   server_->StartServer(ipAddr_,remote_port_);
 }
 
-void NetworkRemote::stopTcpServer()
-{
-  if (server_->ServerUp()){
+void NetworkRemote::stopTcpServer() {
+  if (server_->ServerUp()) {
     qLog(Debug) << "TcpServer stopped ";
     server_->StopServer();
   }

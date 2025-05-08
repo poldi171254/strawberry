@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef OUTGOINGMSG_H
-#define OUTGOINGMSG_H
+#ifndef NETWORKREMOTEOUTGOINGMSG_H
+#define NETWORKREMOTEOUTGOINGMSG_H
 
 #include <QObject>
 #include <QByteArray>
@@ -38,27 +38,26 @@ namespace nw {namespace remote {
 }}
 
 
-class NetworkRemoteOutgoingMsg : public QObject
-{
-     Q_OBJECT
-public:
+class NetworkRemoteOutgoingMsg : public QObject{
+  Q_OBJECT
+ public:
   explicit NetworkRemoteOutgoingMsg(const SharedPtr<Player>& player, QObject *parent = nullptr);
   void Init(QTcpSocket*);
   void SendCurrentTrackInfo();
   void SendMsg();
 
-private:
-  PlaylistItemPtr currentItem_;
+ private:
+  PlaylistItemPtr current_item_;
   Playlist *playlist_;
   QTcpSocket *socket_;
-  qint32 msgType_;
-  QByteArray msgStream_;
+  qint32 msg_type_;
+  QByteArray msg_stream_;
   nw::remote::Message *msg_;
-  long bytesOut_;
-  std::string msgString_;
+  long bytes_out_;
+  std::string msg_string_;
   nw::remote::SongMetadata *song_;
-  nw::remote::ResponseSongMetadata *responeSong_;
+  nw::remote::ResponseSongMetadata *response_song_;
   SharedPtr<Player> player_ ;
 };
 
-#endif // OUTGOINGMSG_H
+#endif

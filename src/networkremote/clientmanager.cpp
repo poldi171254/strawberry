@@ -24,19 +24,16 @@
 #include "core/logging.h"
 
 NetworkRemoteClientManager::NetworkRemoteClientManager(Application *app, QObject *parent)
-  : QObject(parent),
-    app_(app),
-    clients_()
-{}
+    : QObject(parent),
+      app_(app),
+      clients_() {}
 
-NetworkRemoteClientManager::~NetworkRemoteClientManager()
-{
+NetworkRemoteClientManager::~NetworkRemoteClientManager() {
   qDeleteAll(clients_);
   clients_.clear();
 }
 
-void NetworkRemoteClientManager::AddClient(QTcpSocket *socket)
-{
+void NetworkRemoteClientManager::AddClient(QTcpSocket *socket) {
   qLog(Debug) << "New Client connection +++++++++++++++";
   QObject::connect(socket, &QAbstractSocket::errorOccurred, this, &NetworkRemoteClientManager::Error);
   QObject::connect(socket, &QAbstractSocket::stateChanged, this, &NetworkRemoteClientManager::StateChanged);
@@ -49,16 +46,14 @@ void NetworkRemoteClientManager::AddClient(QTcpSocket *socket)
   qLog(Debug) << "There are now +++++++++++++++" << clients_.count() << "clients connected";
 }
 
-void NetworkRemoteClientManager::RemoveClient(NetworkRemoteClient *client)
-{
+void NetworkRemoteClientManager::RemoveClient(NetworkRemoteClient *client) {
   if (clients_.removeOne(client)) {
     client->deleteLater();
   }  
   qLog(Debug) << "There are now +++++++++++++++" << clients_.count() << "clients connected";
 }
 
-void NetworkRemoteClientManager::Error(QAbstractSocket::SocketError socketError)
-{
+void NetworkRemoteClientManager::Error(QAbstractSocket::SocketError socketError) {
   QTcpSocket *socket = qobject_cast<QTcpSocket*>(sender());
   if (!socket) return;
   switch (socketError) {
@@ -76,8 +71,7 @@ void NetworkRemoteClientManager::Error(QAbstractSocket::SocketError socketError)
   }
 }
 
-void NetworkRemoteClientManager::StateChanged()
-{
+void NetworkRemoteClientManager::StateChanged() {
   QTcpSocket *socket = qobject_cast<QTcpSocket*>(sender());
   if (!socket) return;
   qLog(Debug) << socket->state();

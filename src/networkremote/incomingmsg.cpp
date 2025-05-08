@@ -18,45 +18,39 @@
  *
  */
 
-#include "incomingmsg.h"
 #include <QTcpSocket>
+#include "incomingmsg.h"
 #include "networkremote/RemoteMessages.pb.h"
 #include "core/logging.h"
 
 NetworkRemoteIncomingMsg::NetworkRemoteIncomingMsg(QObject *parent)
-  : QObject(parent),
-    msg_(new nw::remote::Message),
-    socket_(nullptr),
-    bytesIn_(0),
-    msgType_(0)
-{}
+    : QObject(parent),
+      msg_(new nw::remote::Message),
+      socket_(nullptr),
+      bytes_in_(0),
+      msg_type_(0) {}
 
-NetworkRemoteIncomingMsg::~NetworkRemoteIncomingMsg()
-{
+NetworkRemoteIncomingMsg::~NetworkRemoteIncomingMsg() {
   delete msg_;
 }
 
-void NetworkRemoteIncomingMsg::Init(QTcpSocket *socket)
-{
+void NetworkRemoteIncomingMsg::Init(QTcpSocket *socket) {
   socket_ = socket;
   QObject::connect(socket_, &QIODevice::readyRead, this, &NetworkRemoteIncomingMsg::ReadyRead);
 }
 
-void NetworkRemoteIncomingMsg::SetMsgType()
-{
-  msgString_ = msgStream_.toStdString();
-  msg_->ParseFromString(msgString_);
+void NetworkRemoteIncomingMsg::SetMsgType() {
+  msg_string_ = msg_stream_.toStdString();
+  msg_->ParseFromString(msg_string_);
   Q_EMIT InMsgParsed();
 }
 
-qint32 NetworkRemoteIncomingMsg::GetMsgType()
-{
+qint32 NetworkRemoteIncomingMsg::GetMsgType() {
   return msg_->type();
 }
 
-void NetworkRemoteIncomingMsg::ReadyRead()
-{
+void NetworkRemoteIncomingMsg::ReadyRead() {
   qLog(Debug) << "Ready To Read";
-  msgStream_ = socket_->readAll();
-  if (msgStream_.length() > 0) SetMsgType();
+  msg_stream_ = socket_->readAll();
+  if (msg_stream_.length() > 0) SetMsgType();
 }

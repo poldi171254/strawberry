@@ -19,49 +19,43 @@
  */
 
 #include "client.h"
-#include "core/application.h"
 
 NetworkRemoteClient::NetworkRemoteClient(const SharedPtr<Player>& player, QObject *parent)
-  : QObject(parent),
-    incomingMsg_(new NetworkRemoteIncomingMsg(this)),
-    outgoingMsg_(new NetworkRemoteOutgoingMsg(player, this)),
-    player_(player)
-{}
-NetworkRemoteClient::~NetworkRemoteClient()
-{}
+    : QObject(parent),
+      incoming_msg_(new NetworkRemoteIncomingMsg(this)),
+      outgoing_msg_(new NetworkRemoteOutgoingMsg(player, this)),
+      player_(player) {}
 
-void NetworkRemoteClient::Init(QTcpSocket *socket)
-{
+NetworkRemoteClient::~NetworkRemoteClient(){}
+
+void NetworkRemoteClient::Init(QTcpSocket *socket){
   socket_ = socket;
-  QObject::connect(incomingMsg_,&NetworkRemoteIncomingMsg::InMsgParsed,this, &NetworkRemoteClient::ProcessIncoming);
-  incomingMsg_->Init(socket_);
-  outgoingMsg_->Init(socket_);
+  QObject::connect(incoming_msg_,&NetworkRemoteIncomingMsg::InMsgParsed,this, &NetworkRemoteClient::ProcessIncoming);
+  incoming_msg_->Init(socket_);
+  outgoing_msg_->Init(socket_);
 }
 
-QTcpSocket* NetworkRemoteClient::GetSocket()
-{
+QTcpSocket* NetworkRemoteClient::GetSocket() {
   return socket_;
 }
 
-void NetworkRemoteClient::ProcessIncoming()
-{
-  switch (incomingMsg_->GetMsgType())
-  {
+void NetworkRemoteClient::ProcessIncoming() {
+  switch (incoming_msg_->GetMsgType()) {
     case nw::remote::MSG_TYPE_REQUEST_SONG_INFO:
-      outgoingMsg_->SendCurrentTrackInfo();
+      outgoing_msg_->SendCurrentTrackInfo();
       break;
     case nw::remote::MSG_TYPE_REQUEST_PLAY:
       player_->Play();
       // In case the player was paused when the client started send the song info again
-      outgoingMsg_->SendCurrentTrackInfo();
+      outgoing_msg_->SendCurrentTrackInfo();
       break;
     case nw::remote::MSG_TYPE_REQUEST_NEXT:
       player_->Next();
-      outgoingMsg_->SendCurrentTrackInfo();
+      outgoing_msg_->SendCurrentTrackInfo();
       break;
     case nw::remote::MSG_TYPE_REQUEST_PREVIOUS:
       player_->Previous();
-      outgoingMsg_->SendCurrentTrackInfo();
+      outgoing_msg_->SendCurrentTrackInfo();
       break;
     case nw::remote::MSG_TYPE_REQUEST_PAUSE:
       player_->Pause();

@@ -18,8 +18,8 @@
  *
  */
 
-#ifndef CLIENT_H
-#define CLIENT_H
+#ifndef NETWORKREMOTECLIENT_H
+#define NETWORKREMOTECLIENT_H
 
 #include <QObject>
 #include <QTcpSocket>
@@ -27,26 +27,25 @@
 #include "outgoingmsg.h"
 #include "core/player.h"
 
-class NetworkRemoteClient : public QObject
-{
+class NetworkRemoteClient : public QObject{
   Q_OBJECT
-public:
+ public:
   explicit NetworkRemoteClient(const SharedPtr<Player>&  player, QObject *parent = nullptr);
   ~NetworkRemoteClient();
   void Init(QTcpSocket*);
-  QTcpSocket* GetSocket();
+  QTcpSocket *GetSocket();
   void ProcessIncoming();
 
-Q_SIGNALS:
+ Q_SIGNALS:
   void ReceiveMsg();
   void PrepareResponse();
   void ClientIsLeaving();
 
-private:
+ private:
   QTcpSocket *socket_;
-  NetworkRemoteIncomingMsg *incomingMsg_;
-  NetworkRemoteOutgoingMsg *outgoingMsg_;
+  NetworkRemoteIncomingMsg *incoming_msg_;
+  NetworkRemoteOutgoingMsg *outgoing_msg_;
   const SharedPtr<Player> player_;
 };
 
-#endif // CLIENT_H
+#endif
