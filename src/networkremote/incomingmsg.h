@@ -1,6 +1,5 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
  * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -24,10 +23,9 @@
 #include <QObject>
 #include <QByteArray>
 #include <QString>
+#include "networkremote/RemoteMessages.pb.h"
 
 class QTcpSocket;
-
-namespace nw { namespace remote { class Message; } }
 
 class NetworkRemoteIncomingMsg : public QObject{
   Q_OBJECT

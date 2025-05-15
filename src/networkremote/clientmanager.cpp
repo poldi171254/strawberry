@@ -1,6 +1,5 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
  * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -23,9 +22,9 @@
 #include "core/application.h"
 #include "core/logging.h"
 
-NetworkRemoteClientManager::NetworkRemoteClientManager(Application *app, QObject *parent)
+NetworkRemoteClientManager::NetworkRemoteClientManager(const SharedPtr<Player>&  player, QObject *parent)
     : QObject(parent),
-      app_(app),
+      player_(player),
       clients_() {}
 
 NetworkRemoteClientManager::~NetworkRemoteClientManager() {
@@ -37,8 +36,7 @@ void NetworkRemoteClientManager::AddClient(QTcpSocket *socket) {
   qLog(Debug) << "New Client connection +++++++++++++++";
   QObject::connect(socket, &QAbstractSocket::errorOccurred, this, &NetworkRemoteClientManager::Error);
   QObject::connect(socket, &QAbstractSocket::stateChanged, this, &NetworkRemoteClientManager::StateChanged);
-  qLog(Debug) << "Socket State is " << app_;
-  NetworkRemoteClient *client = new NetworkRemoteClient(app_->player());
+  NetworkRemoteClient *client = new NetworkRemoteClient(player_);
   client->Init(socket);
   clients_.append(client);
   QObject::connect(client, &NetworkRemoteClient::ClientIsLeaving, this, [this, client](){RemoveClient(client);});

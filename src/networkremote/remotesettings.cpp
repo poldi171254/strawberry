@@ -1,6 +1,5 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
  * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -20,7 +19,6 @@
 
 #include <QHostAddress>
 #include <QNetworkInterface>
-#include <iostream>
 #include "remotesettings.h"
 #include "core/logging.h"
 
@@ -95,8 +93,7 @@ void NetworkRemoteSettings::SetIpAdress() {
   QList<QHostAddress> hostList = QNetworkInterface::allAddresses();
   for (const QHostAddress &address : std::as_const(hostList)) {
     if (address.protocol() == QAbstractSocket::IPv4Protocol && address.isLoopback() == false && !found) {
-    std::cout << "NOTE: this code currently only takes the first ip address it finds";
-    qLog(Debug) << "Warning: The code only picks the first IPv4 address";
+    qInfo( "Warning: The code only picks the first IPv4 address");
       found = true;
       ip_addr_ = address.toString();
     }

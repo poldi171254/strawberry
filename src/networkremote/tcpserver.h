@@ -1,6 +1,5 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
  * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -26,12 +25,10 @@
 #include <QTcpSocket>
 #include "networkremote/clientmanager.h"
 
-class Application;
-
 class NetworkRemoteTcpServer : public QObject{
   Q_OBJECT
  public:
-  explicit NetworkRemoteTcpServer(Application* app, QObject *parent = nullptr);
+  explicit NetworkRemoteTcpServer(const SharedPtr<Player>& player, QObject *parent = nullptr);
   bool ServerUp();
 
  public Q_SLOTS:
@@ -40,7 +37,7 @@ class NetworkRemoteTcpServer : public QObject{
   void StopServer();
 
  private:
-  Application *app_;
+  const SharedPtr<Player> player_;
   QTcpServer *server_;
   QTcpSocket *socket_;
   NetworkRemoteClientManager *client_mgr_;

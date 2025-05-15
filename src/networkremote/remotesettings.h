@@ -1,6 +1,5 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
  * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -41,7 +40,7 @@ class NetworkRemoteSettings{
   void SetPort(int);
 
  private:
-  QSettings s_;
+  Settings s_;
   bool enabled_;
   bool local_only_;
   int remote_port_;

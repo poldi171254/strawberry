@@ -1,6 +1,5 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
  * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -44,7 +43,7 @@ NetworkRemote::~NetworkRemote() {
 void NetworkRemote::Init() {
   LoadSettings();
   if (enabled_) {
-    server_ = new NetworkRemoteTcpServer(app_,this);
+    server_ = new NetworkRemoteTcpServer(app_->player(),this);
     startTcpServer();
   }
   else {
@@ -78,7 +77,7 @@ void NetworkRemote::startTcpServer() {
 }
 
 void NetworkRemote::stopTcpServer() {
-  if (server_->ServerUp()) {
+  if (server_ && server_->ServerUp()) {
     qLog(Debug) << "TcpServer stopped ";
     server_->StopServer();
   }
@@ -92,4 +91,3 @@ NetworkRemote* NetworkRemote::Instance() {
   qLog(Debug) << "NetworkRemote instance is up ";
   return sInstance_;
 }
-

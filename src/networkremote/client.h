@@ -1,6 +1,5 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
  * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -42,10 +41,10 @@ class NetworkRemoteClient : public QObject{
   void ClientIsLeaving();
 
  private:
+  const SharedPtr<Player> player_;
   QTcpSocket *socket_;
   NetworkRemoteIncomingMsg *incoming_msg_;
   NetworkRemoteOutgoingMsg *outgoing_msg_;
-  const SharedPtr<Player> player_;
 };
 
 #endif

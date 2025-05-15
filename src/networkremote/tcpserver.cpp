@@ -1,6 +1,5 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
  * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -23,11 +22,11 @@
 #include "core/logging.h"
 #include "networkremote/clientmanager.h"
 
-NetworkRemoteTcpServer::NetworkRemoteTcpServer(Application* app, QObject *parent)
+NetworkRemoteTcpServer::NetworkRemoteTcpServer(const SharedPtr<Player>& player, QObject *parent)
     : QObject(parent),
-      app_(app),
+      player_(player),
       server_(new QTcpServer(this)),
-      client_mgr_(new NetworkRemoteClientManager(app_,this)) {
+      client_mgr_(new NetworkRemoteClientManager(player_,this)) {
   connect(server_,&QTcpServer::newConnection, this, &NetworkRemoteTcpServer::NewTcpConnection);
 }
 
@@ -45,11 +44,12 @@ void NetworkRemoteTcpServer::NewTcpConnection() {
 }
 
 void NetworkRemoteTcpServer::StopServer() {
-  server_->close();
-  qLog(Debug) << "TCP Server Stopped ----------------------";
+  if(server_ && server_->isListening()){
+    server_->close();
+    qLog(Debug) << "TCP Server Stopped ----------------------";
+  }
 }
 
 bool NetworkRemoteTcpServer::ServerUp() {
   return server_->isListening();
 }
-

@@ -1,6 +1,5 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
  * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -23,9 +22,6 @@
 #include "core/application.h"
 #include "core/logging.h"
 #include "core/player.h"
-
-
-using namespace Qt::Literals::StringLiterals;
 
 NetworkRemoteOutgoingMsg::NetworkRemoteOutgoingMsg(const SharedPtr<Player>& player, QObject *parent)
     : QObject(parent),  
@@ -58,9 +54,8 @@ void NetworkRemoteOutgoingMsg::SendCurrentTrackInfo() {
     msg_->mutable_response_song_metadata()->set_allocated_song_metadata(song_);
   }
   else {
-    std::cout << "I cannnot figure out how to get the song data if the song isn't playing";
+    qInfo("I cannnot figure out how to get the song data if the song isn't playing");
     /* NOTE:  TODO
-     * I couldn't figure out how to get the song data if the song wasn't playing
      *
      * */
     msg_->set_type(nw::remote::MSG_TYPE_UNSPECIFIED);
@@ -79,4 +74,3 @@ void NetworkRemoteOutgoingMsg::SendMsg() {
     msg_->Clear();
   }
 }
-

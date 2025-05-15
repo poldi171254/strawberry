@@ -1,6 +1,5 @@
 /*
  * Strawberry Music Player
- * This file was part of Clementine.
  * Copyright 2025, Leopold List <leo@zudiewiener.com>
  *
  * Strawberry is free software: you can redistribute it and/or modify
@@ -30,13 +29,6 @@
 class Playlist;
 class Player;
 class QTcpSocket;
-
-namespace nw {namespace remote {
-  class Message;
-  class RequestSongMetadata;
-  class ResponseSongMetadata;  
-}}
-
 
 class NetworkRemoteOutgoingMsg : public QObject{
   Q_OBJECT
